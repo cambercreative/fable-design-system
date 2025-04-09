@@ -1,0 +1,1 @@
+This directory has been removed to prevent conflicts with the official DSD at https://github.com/cambercreative/fable/tree/main/docs/dsd.
