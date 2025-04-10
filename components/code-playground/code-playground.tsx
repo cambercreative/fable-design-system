@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Clipboard, Check, EyeIcon, Code as CodeIcon } from 'lucide-react';
 import { Highlight, themes } from 'prism-react-renderer';
 import { useTheme } from 'next-themes';
+import { generateComponentCode, generateFullExample } from './code-generator';
 
 interface PropertyControl {
   type: 'select' | 'boolean' | 'string' | 'number' | 'color';
@@ -52,24 +53,8 @@ export default function CodePlayground({
 
   // Generate code based on current props
   useEffect(() => {
-    let code = `<${componentName}`;
-    
-    // Add props to the component
-    Object.entries(props).forEach(([key, value]) => {
-      if (typeof value === 'string') {
-        code += `\n  ${key}="${value}"`;
-      } else if (typeof value === 'boolean') {
-        if (value) {
-          code += `\n  ${key}`;
-        }
-      } else {
-        code += `\n  ${key}={${JSON.stringify(value)}}`;
-      }
-    });
-    
-    // Close the component tag
-    code += `\n/>`;
-    
+    // Generate component code using the utility function
+    const code = generateComponentCode(componentName, props);
     setGeneratedCode(code);
   }, [props, componentName]);
 
@@ -91,7 +76,7 @@ export default function CodePlayground({
   };
 
   return (
-    <Card className="mb-xl border-border-default dark:border-border-default bg-surface-primary dark:bg-dark-surface-primary">
+    <Card className="mb-xl border-border-default dark:border-border-default bg-surface-primary dark:bg-surface-primary">
       <CardContent className="p-0">
         {/* Tabs for Preview and Code */}
         <Tabs 
@@ -123,7 +108,7 @@ export default function CodePlayground({
             <div className="grid grid-cols-1 lg:grid-cols-4 gap-l">
               {/* Controls Panel */}
               <div className="lg:col-span-1 order-2 lg:order-1">
-                <div className="bg-surface-secondary dark:bg-dark-surface-secondary rounded-m p-m">
+                <div className="bg-surface-secondary dark:bg-surface-secondary rounded-m p-m">
                   <h4 className="text-headline font-faro mb-m">Properties</h4>
                   <div className="space-y-m">
                     {properties.map((property) => (
@@ -134,7 +119,7 @@ export default function CodePlayground({
                         
                         {property.type === 'select' && property.options && (
                           <select
-                            className="w-full rounded-s border border-border-default bg-surface-tertiary dark:bg-dark-surface-tertiary px-s py-xs text-caption font-atkinson"
+                            className="w-full rounded-s border border-border-default bg-surface-tertiary dark:bg-surface-tertiary px-s py-xs text-caption font-atkinson"
                             value={props[property.prop] || ''}
                             onChange={(e) => handlePropertyChange(property.prop, e.target.value)}
                           >
@@ -166,7 +151,7 @@ export default function CodePlayground({
                             type="text"
                             value={props[property.prop] || ''}
                             onChange={(e) => handlePropertyChange(property.prop, e.target.value)}
-                            className="w-full rounded-s border border-border-default bg-surface-tertiary dark:bg-dark-surface-tertiary px-s py-xs text-caption font-atkinson"
+                            className="w-full rounded-s border border-border-default bg-surface-tertiary dark:bg-surface-tertiary px-s py-xs text-caption font-atkinson"
                           />
                         )}
                         
@@ -175,7 +160,7 @@ export default function CodePlayground({
                             type="number"
                             value={props[property.prop] || 0}
                             onChange={(e) => handlePropertyChange(property.prop, Number(e.target.value))}
-                            className="w-full rounded-s border border-border-default bg-surface-tertiary dark:bg-dark-surface-tertiary px-s py-xs text-caption font-atkinson"
+                            className="w-full rounded-s border border-border-default bg-surface-tertiary dark:bg-surface-tertiary px-s py-xs text-caption font-atkinson"
                           />
                         )}
                         
@@ -191,7 +176,7 @@ export default function CodePlayground({
                               type="text"
                               value={props[property.prop] || ''}
                               onChange={(e) => handlePropertyChange(property.prop, e.target.value)}
-                              className="flex-1 rounded-s border border-border-default bg-surface-tertiary dark:bg-dark-surface-tertiary px-s py-xs text-caption font-atkinson"
+                              className="flex-1 rounded-s border border-border-default bg-surface-tertiary dark:bg-surface-tertiary px-s py-xs text-caption font-atkinson"
                             />
                           </div>
                         )}
@@ -204,19 +189,19 @@ export default function CodePlayground({
               {/* Preview/Code Panel */}
               <div className="lg:col-span-3 order-1 lg:order-2">
                 <TabsContent value="preview" className="mt-0 space-y-l">
-                  <div className="bg-surface-secondary dark:bg-dark-surface-secondary rounded-m p-l flex items-center justify-center min-h-[200px]">
+                  <div className="bg-surface-secondary dark:bg-surface-secondary rounded-m p-l flex items-center justify-center min-h-[200px]">
                     <Component {...props} />
                   </div>
                   
                   {children && (
-                    <div className="bg-surface-secondary dark:bg-dark-surface-secondary rounded-m p-l">
+                    <div className="bg-surface-secondary dark:bg-surface-secondary rounded-m p-l">
                       {children}
                     </div>
                   )}
                 </TabsContent>
                 
                 <TabsContent value="code" className="mt-0">
-                  <div className="relative bg-surface-secondary dark:bg-dark-surface-secondary rounded-m overflow-hidden">
+                  <div className="relative bg-surface-secondary dark:bg-surface-secondary rounded-m overflow-hidden">
                     <Button
                       variant="icon"
                       size="sm"
