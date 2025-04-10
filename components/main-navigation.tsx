@@ -11,7 +11,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from './ui/accordion'
-import { ChevronRight, Home, Palette, Components, Layout, FileText, Layers, Settings, Smartphone, Search } from 'lucide-react'
+import { ChevronRight, Home, Palette, Components, Layout, FileText, Layers, Settings, Smartphone, Code, Search } from 'lucide-react'
 
 // Navigation item type
 type NavItem = {
@@ -43,6 +43,7 @@ const navigationItems: NavItem[] = [
       { title: 'Shape System', href: '/design-foundations/shape-system' },
       { title: 'Motion', href: '/design-foundations/motion' },
       { title: 'Light & Dark Mode', href: '/design-foundations/themes' },
+      { title: 'Code Playground', href: '/design-foundations/playground', icon: <Code size={16} /> },
     ],
   },
   {
@@ -115,8 +116,7 @@ interface MainNavigationProps {
 
 export default function MainNavigation({ isOpen }: MainNavigationProps) {
   const pathname = usePathname()
-  const [openSections, setOpenSections] = useState<string[]>([]
-)
+  const [openSections, setOpenSections] = useState<string[]>([])
 
   // Determine which sections should be open based on the current path
   useEffect(() => {
@@ -144,7 +144,7 @@ export default function MainNavigation({ isOpen }: MainNavigationProps) {
 
   return (
     <div className={cn(
-      "fixed inset-y-0 left-0 z-20 w-full md:w-72 h-screen border-r border-border bg-surface-secondary dark:bg-dark-surface-secondary transition-all duration-300 ease-in-out",
+      "fixed inset-y-0 left-0 z-20 w-full md:w-72 h-screen border-r border-border bg-surface-secondary dark:bg-surface-secondary transition-all duration-300 ease-in-out",
       "md:sticky md:top-16 md:h-[calc(100vh-4rem)]",
       isOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"
     )}>
@@ -176,7 +176,7 @@ export default function MainNavigation({ isOpen }: MainNavigationProps) {
                     className="border-none"
                   >
                     <AccordionItem value={item.title} className="border-none">
-                      <AccordionTrigger className="py-2 px-3 text-sm hover:bg-surface-primary dark:hover:bg-dark-surface-primary rounded-md group">
+                      <AccordionTrigger className="py-2 px-3 text-sm hover:bg-surface-primary dark:hover:bg-surface-primary rounded-md group">
                         <div className="flex items-center gap-3">
                           {item.icon}
                           <span>{item.title}</span>
@@ -192,7 +192,7 @@ export default function MainNavigation({ isOpen }: MainNavigationProps) {
                                 "block py-2 px-3 text-sm rounded-md transition-colors",
                                 pathname === child.href
                                   ? "bg-primary/10 text-primary font-medium"
-                                  : "hover:bg-surface-primary dark:hover:bg-dark-surface-primary"
+                                  : "hover:bg-surface-primary dark:hover:bg-surface-primary"
                               )}
                             >
                               <div className="flex items-center gap-2">
@@ -217,7 +217,7 @@ export default function MainNavigation({ isOpen }: MainNavigationProps) {
                     "flex items-center gap-3 py-2 px-3 text-sm rounded-md transition-colors",
                     pathname === item.href
                       ? "bg-primary/10 text-primary font-medium"
-                      : "hover:bg-surface-primary dark:hover:bg-dark-surface-primary"
+                      : "hover:bg-surface-primary dark:hover:bg-surface-primary"
                   )}
                 >
                   {item.icon}
