@@ -8,6 +8,7 @@ import Header from '../components/header'
 import MainNavigation from '../components/main-navigation'
 import { usePathname } from 'next/navigation'
 import { useState, useEffect } from 'react'
+import Providers from './providers'
 
 export const metadata: Metadata = {
   title: 'Fable Design System',
@@ -59,21 +60,23 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <div className="flex h-screen flex-col">
-            <Header 
-              isSidebarOpen={isSidebarOpen} 
-              toggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)} 
-            />
-            <div className="flex flex-1 overflow-hidden">
-              <MainNavigation isOpen={isSidebarOpen} />
-              <main className="flex-1 overflow-y-auto p-6">
-                <div className="mx-auto max-w-7xl">
-                  {children}
-                </div>
-              </main>
+          <Providers>
+            <div className="flex h-screen flex-col">
+              <Header 
+                isSidebarOpen={isSidebarOpen} 
+                toggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)} 
+              />
+              <div className="flex flex-1 overflow-hidden">
+                <MainNavigation isOpen={isSidebarOpen} />
+                <main className="flex-1 overflow-y-auto p-6">
+                  <div className="mx-auto max-w-7xl">
+                    {children}
+                  </div>
+                </main>
+              </div>
             </div>
-          </div>
-          <AxeHelper />
+            <AxeHelper />
+          </Providers>
         </ThemeProvider>
       </body>
     </html>
