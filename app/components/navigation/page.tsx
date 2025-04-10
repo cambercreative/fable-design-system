@@ -185,7 +185,7 @@ export default function NavigationPage() {
                   </tr>
                   <tr className="border-b">
                     <td className="py-2 px-4 font-atkinson text-body font-medium">onChange</td>
-                    <td className="py-2 px-4 font-atkinson text-body">(id: string) => void</td>
+                    <td className="py-2 px-4 font-atkinson text-body">(id: string) =&gt; void</td>
                     <td className="py-2 px-4 font-atkinson text-body">-</td>
                     <td className="py-2 px-4 font-atkinson text-body">Callback function when a tab is selected.</td>
                   </tr>
@@ -323,7 +323,7 @@ export default function NavigationPage() {
                   </tr>
                   <tr className="border-b">
                     <td className="py-2 px-4 font-atkinson text-body font-medium">onChange</td>
-                    <td className="py-2 px-4 font-atkinson text-body">(value: string) => void</td>
+                    <td className="py-2 px-4 font-atkinson text-body">(value: string) =&gt; void</td>
                     <td className="py-2 px-4 font-atkinson text-body">-</td>
                     <td className="py-2 px-4 font-atkinson text-body">Callback function when an option is selected.</td>
                   </tr>
@@ -455,7 +455,7 @@ export default function NavigationPage() {
                   </tr>
                   <tr className="border-b">
                     <td className="py-2 px-4 font-atkinson text-body font-medium">onChange</td>
-                    <td className="py-2 px-4 font-atkinson text-body">(id: string) => void</td>
+                    <td className="py-2 px-4 font-atkinson text-body">(id: string) =&gt; void</td>
                     <td className="py-2 px-4 font-atkinson text-body">-</td>
                     <td className="py-2 px-4 font-atkinson text-body">Callback function when a tab is selected.</td>
                   </tr>
