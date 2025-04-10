@@ -18,8 +18,142 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # Single deploy job since we're just deploying
+  validate-dependencies:
+    name: Validate DSD Dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Validate Radix UI Dependencies
+        run: |
+          echo "Validating required Radix UI dependencies..."
+          
+          MISSING_DEPS=""
+          
+          # Define required Radix UI packages from DSD
+          REQUIRED_RADIX=(
+            "@radix-ui/react-accordion"
+            "@radix-ui/react-checkbox"
+            "@radix-ui/react-dialog"
+            "@radix-ui/react-dropdown-menu"
+            "@radix-ui/react-label"
+            "@radix-ui/react-navigation-menu"
+            "@radix-ui/react-radio-group"
+            "@radix-ui/react-scroll-area"
+            "@radix-ui/react-select"
+            "@radix-ui/react-slot"
+            "@radix-ui/react-switch"
+            "@radix-ui/react-tabs"
+            "@radix-ui/react-toast"
+            "@radix-ui/react-tooltip"
+          )
+          
+          # Check each dependency
+          for dep in "${REQUIRED_RADIX[@]}"; do
+            if ! grep -q "\"$dep\":" package.json; then
+              MISSING_DEPS="$MISSING_DEPS\n - $dep"
+            fi
+          done
+          
+          # Define required support dependencies from DSD
+          REQUIRED_SUPPORT=(
+            "class-variance-authority"
+            "clsx"
+            "lucide-react"
+            "tailwind-merge"
+            "tailwindcss-animate"
+          )
+          
+          # Check each support dependency
+          for dep in "${REQUIRED_SUPPORT[@]}"; do
+            if ! grep -q "\"$dep\":" package.json; then
+              MISSING_DEPS="$MISSING_DEPS\n - $dep"
+            fi
+          done
+          
+          # Report and fail if dependencies are missing
+          if [ -n "$MISSING_DEPS" ]; then
+            echo -e "❌ Missing required dependencies:$MISSING_DEPS"
+            exit 1
+          else
+            echo "✅ All required dependencies are installed"
+          fi
+      
+      - name: Verify Next.js Configuration
+        run: |
+          echo "Verifying Next.js configuration..."
+          
+          if ! grep -q "output: 'export'" next.config.js; then
+            echo "❌ Missing 'output: export' in next.config.js"
+            exit 1
+          fi
+          
+          if ! grep -q "basePath: process.env.NODE_ENV === 'production'" next.config.js; then
+            echo "❌ Missing proper basePath configuration in next.config.js"
+            exit 1
+          fi
+          
+          if ! grep -q "unoptimized: true" next.config.js; then
+            echo "❌ Missing 'unoptimized: true' for images in next.config.js"
+            exit 1
+          fi
+          
+          echo "✅ Next.js configuration verified"
+
+  lint-components:
+    name: Lint and Type-Check Components
+    runs-on: ubuntu-latest
+    needs: [validate-dependencies]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Lint
+        run: npm run lint
+      
+      - name: Type-check
+        run: |
+          if [ -f "tsconfig.json" ]; then
+            npx tsc --noEmit
+          else
+            echo "No TypeScript config found, skipping type check"
+          fi
+      
+      - name: Check Tailwind Classes
+        run: |
+          echo "Validating Tailwind usage in component files..."
+          
+          # Check for arbitrary value usage in class notation which is not allowed per DSD
+          if grep -r "class.*\[\(" --include="*.jsx" --include="*.tsx" --include="*.js" --include="*.ts" app/; then
+            echo "❌ Found arbitrary values in Tailwind classes which violates the DSD"
+            grep -r "class.*\[\(" --include="*.jsx" --include="*.tsx" --include="*.js" --include="*.ts" app/
+            exit 1
+          else
+            echo "✅ No arbitrary values found in Tailwind classes"
+          fi
+
   deploy:
+    name: Build and Deploy
+    needs: [validate-dependencies, lint-components]
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
@@ -42,6 +176,15 @@ jobs:
       
       - name: Build
         run: npm run build
+      
+      - name: Verify Build Output
+        run: |
+          if [ ! -d "out" ]; then
+            echo "❌ Build output directory 'out' not found"
+            exit 1
+          fi
+          
+          echo "✅ Build output verified"
       
       - name: Add .nojekyll to output directory
         run: touch out/.nojekyll
