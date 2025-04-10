@@ -1,117 +1,266 @@
-import React from 'react'
-import Sidebar from '../../components/sidebar'
-import Header from '../../components/header'
-import { Tabs, TabsList, TabsTrigger, TabsContent } from '../../components/ui/tabs'
-import { Button } from '../../components/ui/button'
-import CodeBlock from '../../components/code-block'
+import PageWrapper from '../../components/page-wrapper'
+import Link from 'next/link'
+import { 
+  Circle, 
+  Square, 
+  Triangle, 
+  ToggleLeft, 
+  CheckSquare, 
+  Radio, 
+  ListFilter, 
+  Inbox, 
+  MessageSquare, 
+  AlertCircle, 
+  Bell, 
+  Volume2 
+} from 'lucide-react'
 
 export default function ComponentsPage() {
   return (
-    <div className="flex min-h-screen w-full flex-col md:flex-row">
-      <Sidebar />
-      <div className="flex w-full flex-col">
-        <Header />
-        <main className="container max-w-screen-xl flex-1 p-6 md:p-8 lg:p-10">
-          <div className="max-w-[1200px] mx-auto">
-            <section className="mb-xl">
-              <h1 className="mb-m">Components</h1>
-              <p className="text-lg max-w-3xl">Interactive UI components designed for Fable's applications with accessibility and responsiveness built-in.</p>
-            </section>
+    <PageWrapper
+      title="Component Library"
+      description="A comprehensive collection of reusable UI components that power Fable's user interfaces."
+    >
+      <div className="grid gap-12">
+        <section className="grid gap-6">
+          <p>
+            The Fable component library provides a consistent set of UI building blocks
+            that can be combined to create cohesive and accessible user experiences.
+            Each component is designed for flexibility, accessibility, and performance.
+          </p>
+        </section>
+
+        <section className="grid gap-6">
+          <h2 className="text-2xl font-semibold">Component Categories</h2>
+          
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            <ComponentCategory
+              title="Core Inputs"
+              description="Essential input components for user interaction"
+              icon={<Circle size={24} />}
+              components={[
+                { name: 'Buttons', href: '/components/buttons' },
+                { name: 'Inputs', href: '/components/inputs' },
+                { name: 'Textareas', href: '/components/textareas' },
+                { name: 'Select', href: '/components/select' },
+              ]}
+            />
             
-            <section className="mb-xl">
-              <h2 className="mb-m">Button</h2>
-              <p className="mb-l">Buttons allow users to trigger actions or events with a single click or tap.</p>
-              
-              <div className="p-l bg-surface-secondary dark:bg-dark-surface-secondary rounded-lg mb-l">
-                <Tabs defaultValue="preview">
-                  <TabsList>
-                    <TabsTrigger value="preview">Preview</TabsTrigger>
-                    <TabsTrigger value="code">Code</TabsTrigger>
-                  </TabsList>
-                  <TabsContent value="preview" className="p-m">
-                    <div className="flex flex-wrap gap-4">
-                      <Button variant="default">Primary</Button>
-                      <Button variant="secondary">Secondary</Button>
-                      <Button variant="outline">Outline</Button>
-                      <Button variant="ghost">Ghost</Button>
-                      <Button variant="destructive">Destructive</Button>
-                    </div>
-                  </TabsContent>
-                  <TabsContent value="code">
-                    <CodeBlock 
-                      language="jsx" 
-                      code={`<Button variant="default">Primary</Button>
-<Button variant="secondary">Secondary</Button>
-<Button variant="outline">Outline</Button>
-<Button variant="ghost">Ghost</Button>
-<Button variant="destructive">Destructive</Button>`} 
-                    />
-                  </TabsContent>
-                </Tabs>
-              </div>
-              
-              <div className="space-y-m">
-                <div>
-                  <h3 className="mb-s">Properties</h3>
-                  <div className="overflow-x-auto">
-                    <table className="w-full border-collapse">
-                      <thead>
-                        <tr className="bg-surface-secondary dark:bg-dark-surface-secondary">
-                          <th className="border border-border p-s text-left">Prop</th>
-                          <th className="border border-border p-s text-left">Type</th>
-                          <th className="border border-border p-s text-left">Default</th>
-                          <th className="border border-border p-s text-left">Description</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td className="border border-border p-s">variant</td>
-                          <td className="border border-border p-s">string</td>
-                          <td className="border border-border p-s">default</td>
-                          <td className="border border-border p-s">Visual style of the button: default, destructive, outline, secondary, ghost, link</td>
-                        </tr>
-                        <tr>
-                          <td className="border border-border p-s">size</td>
-                          <td className="border border-border p-s">string</td>
-                          <td className="border border-border p-s">default</td>
-                          <td className="border border-border p-s">Size of the button: default, sm, lg, icon</td>
-                        </tr>
-                        <tr>
-                          <td className="border border-border p-s">asChild</td>
-                          <td className="border border-border p-s">boolean</td>
-                          <td className="border border-border p-s">false</td>
-                          <td className="border border-border p-s">Whether to render as child element instead of a button</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-                
-                <div>
-                  <h3 className="mb-s">Accessibility</h3>
-                  <ul className="list-disc pl-6 space-y-2">
-                    <li>Buttons use native <code className="text-sm bg-surface-secondary dark:bg-dark-surface-secondary px-1 py-0.5 rounded">button</code> elements by default</li>
-                    <li>Focus indicators are visible for keyboard navigation</li>
-                    <li>Color contrast ratios meet WCAG AA standards</li>
-                    <li>Touch target sizing follows responsive design specifications</li>
-                  </ul>
-                </div>
-                
-                <div>
-                  <h3 className="mb-s">Usage Guidelines</h3>
-                  <ul className="list-disc pl-6 space-y-2">
-                    <li>Use Primary variant for main actions</li>
-                    <li>Use Secondary variant for alternate actions</li>
-                    <li>Use Destructive variant for irreversible or potentially harmful actions</li>
-                    <li>Limit the number of primary buttons per screen to maintain clear visual hierarchy</li>
-                    <li>Button text should be concise and clearly communicate the action</li>
-                  </ul>
-                </div>
-              </div>
-            </section>
+            <ComponentCategory
+              title="Selection Controls"
+              description="Components for selecting options and toggling states"
+              icon={<ToggleLeft size={24} />}
+              components={[
+                { name: 'Checkboxes', href: '/components/checkboxes' },
+                { name: 'Radio Groups', href: '/components/radio-groups' },
+                { name: 'Switches', href: '/components/switches' },
+                { name: 'Toggle Buttons', href: '/components/toggle-buttons' },
+              ]}
+            />
+            
+            <ComponentCategory
+              title="Form Elements"
+              description="Components for building structured forms"
+              icon={<CheckSquare size={24} />}
+              components={[
+                { name: 'Form Layout', href: '/components/form-layout' },
+                { name: 'Field', href: '/components/field' },
+                { name: 'Label', href: '/components/label' },
+                { name: 'Validation', href: '/components/validation' },
+              ]}
+            />
+            
+            <ComponentCategory
+              title="Data Display"
+              description="Components for presenting data and content"
+              icon={<ListFilter size={24} />}
+              components={[
+                { name: 'Cards', href: '/components/cards' },
+                { name: 'Lists', href: '/components/lists' },
+                { name: 'Tables', href: '/components/tables' },
+                { name: 'Data Visualization', href: '/components/data-visualization' },
+              ]}
+            />
+            
+            <ComponentCategory
+              title="Navigation"
+              description="Components for navigating between views and sections"
+              icon={<Square size={24} />}
+              components={[
+                { name: 'Navigation Menu', href: '/components/navigation-menu' },
+                { name: 'Tabs', href: '/components/tabs' },
+                { name: 'Breadcrumbs', href: '/components/breadcrumbs' },
+                { name: 'Pagination', href: '/components/pagination' },
+              ]}
+            />
+            
+            <ComponentCategory
+              title="Overlays"
+              description="Components that appear above the main interface"
+              icon={<Triangle size={24} />}
+              components={[
+                { name: 'Dialogs', href: '/components/dialogs' },
+                { name: 'Tooltips', href: '/components/tooltips' },
+                { name: 'Popovers', href: '/components/popovers' },
+                { name: 'Sheets', href: '/components/sheets' },
+              ]}
+            />
+            
+            <ComponentCategory
+              title="Feedback"
+              description="Components that provide feedback to user actions"
+              icon={<AlertCircle size={24} />}
+              components={[
+                { name: 'Alerts', href: '/components/alerts' },
+                { name: 'Toast', href: '/components/toast' },
+                { name: 'Progress', href: '/components/progress' },
+                { name: 'Skeleton', href: '/components/skeleton' },
+              ]}
+            />
+            
+            <ComponentCategory
+              title="Content"
+              description="Components for displaying rich content"
+              icon={<Inbox size={24} />}
+              components={[
+                { name: 'Typography', href: '/components/typography' },
+                { name: 'Avatar', href: '/components/avatar' },
+                { name: 'Badge', href: '/components/badge' },
+                { name: 'Divider', href: '/components/divider' },
+              ]}
+            />
+            
+            <ComponentCategory
+              title="Voice UI"
+              description="Components for voice interaction patterns"
+              icon={<Volume2 size={24} />}
+              components={[
+                { name: 'Voice Input', href: '/components/voice-input' },
+                { name: 'Voice Feedback', href: '/components/voice-feedback' },
+                { name: 'Voice Visualization', href: '/components/voice-visualization' },
+                { name: 'Voice Commands', href: '/components/voice-commands' },
+              ]}
+            />
           </div>
-        </main>
+        </section>
+
+        <section className="grid gap-6">
+          <h2 className="text-2xl font-semibold">Component Status</h2>
+          <p>
+            Our components follow a development lifecycle with defined statuses to indicate
+            their readiness for production use. This helps teams understand which components
+            are ready to be incorporated into product development.
+          </p>
+          
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            <StatusCard 
+              status="Stable"
+              description="Thoroughly tested and ready for production use."
+              color="bg-success"
+            />
+            <StatusCard 
+              status="Beta"
+              description="Feature complete but may receive updates based on feedback."
+              color="bg-info"
+            />
+            <StatusCard 
+              status="Alpha"
+              description="Under active development, may have significant changes."
+              color="bg-warning"
+            />
+            <StatusCard 
+              status="Deprecated"
+              description="Will be removed in a future version, avoid using."
+              color="bg-error"
+            />
+          </div>
+        </section>
+
+        <section className="grid gap-6">
+          <h2 className="text-2xl font-semibold">Implementation Guidance</h2>
+          <p>
+            For guidance on implementing components in your project, refer to the
+            detailed documentation for each component or explore the implementation
+            guides in the Resources section.
+          </p>
+          
+          <div className="grid gap-4 md:grid-cols-2">
+            <Link 
+              href="/resources/implementation-guide"
+              className="p-6 bg-surface-secondary dark:bg-dark-surface-secondary rounded-lg hover:bg-surface-primary dark:hover:bg-dark-surface-primary transition-colors"
+            >
+              <h3 className="text-xl font-semibold mb-2">Component Implementation Guide</h3>
+              <p className="text-muted-foreground">
+                Comprehensive guide for implementing components in your projects, including
+                best practices and code examples.
+              </p>
+            </Link>
+            
+            <Link 
+              href="/resources/design-tokens"
+              className="p-6 bg-surface-secondary dark:bg-dark-surface-secondary rounded-lg hover:bg-surface-primary dark:hover:bg-dark-surface-primary transition-colors"
+            >
+              <h3 className="text-xl font-semibold mb-2">Design Tokens</h3>
+              <p className="text-muted-foreground">
+                Access design tokens used by components for consistent styling across
+                different platforms and implementations.
+              </p>
+            </Link>
+          </div>
+        </section>
       </div>
-    </div>
+    </PageWrapper>
   )
+}
+
+function ComponentCategory({
+  title,
+  description,
+  icon,
+  components,
+}: {
+  title: string;
+  description: string;
+  icon: React.ReactNode;
+  components: { name: string; href: string }[];
+}) {
+  return (
+    <div className="p-6 bg-surface-secondary dark:bg-dark-surface-secondary rounded-lg">
+      <div className="flex items-center mb-4">
+        <div className="mr-3 text-primary">{icon}</div>
+        <h3 className="text-xl font-semibold">{title}</h3>
+      </div>
+      <p className="text-muted-foreground mb-4">{description}</p>
+      <ul className="space-y-2">
+        {components.map((component, index) => (
+          <li key={index}>
+            <Link 
+              href={component.href}
+              className="inline-block text-sm hover:text-primary transition-colors"
+            >
+              {component.name}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function StatusCard({
+  status,
+  description,
+  color,
+}: {
+  status: string;
+  description: string;
+  color: string;
+}) {
+  return (
+    <div className="p-4 bg-surface-secondary dark:bg-dark-surface-secondary rounded-lg border border-border overflow-hidden">
+      <div className={`h-1 -mt-4 mb-3 ${color}`}></div>
+      <h3 className="font-semibold mb-1">{status}</h3>
+      <p className="text-sm text-muted-foreground">{description}</p>
+    </div>
+  );
 }
