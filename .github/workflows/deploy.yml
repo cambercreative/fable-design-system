@@ -18,14 +18,17 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # Build job
-  build:
+  # Single deploy job since we're just deploying
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
       
-      - name: Setup Node.js
+      - name: Set up Node
         uses: actions/setup-node@v3
         with:
           node-version: 18
@@ -43,23 +46,14 @@ jobs:
       - name: Add .nojekyll to output directory
         run: touch out/.nojekyll
       
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+      
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-pages-artifact@v3
         with:
-          name: github-pages
-          path: out
-          if-no-files-found: error
-
-  # Deployment job
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
+          path: './out'
+      
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/github-pages-deploy-action@v4
-        with:
-          folder: out
+        uses: actions/deploy-pages@v4
