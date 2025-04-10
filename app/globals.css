@@ -1,0 +1,114 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 39 100% 93%;
+    --foreground: 0 0% 0%;
+
+    --card: 39 100% 96%;
+    --card-foreground: 0 0% 0%;
+
+    --popover: 39 100% 96%;
+    --popover-foreground: 0 0% 0%;
+
+    --primary: 28 100% 50%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 39 100% 93%;
+    --secondary-foreground: 0 0% 0%;
+
+    --muted: 39 50% 85%;
+    --muted-foreground: 0 0% 40%;
+
+    --accent: 28 100% 80%;
+    --accent-foreground: 0 0% 0%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 39 40% 80%;
+    --input: 39 40% 80%;
+    --ring: 28 100% 50%;
+
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 0 0% 10%;
+    --foreground: 0 0% 100%;
+
+    --card: 0 0% 16%;
+    --card-foreground: 0 0% 100%;
+
+    --popover: 0 0% 16%;
+    --popover-foreground: 0 0% 100%;
+
+    --primary: 28 100% 50%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 0 0% 16%;
+    --secondary-foreground: 0 0% 100%;
+
+    --muted: 0 0% 25%;
+    --muted-foreground: 0 0% 70%;
+
+    --accent: 28 50% 40%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 30%;
+    --input: 0 0% 30%;
+    --ring: 28 100% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-surface-primary text-text-primary dark:bg-dark-surface-primary dark:text-dark-text-primary;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  /* Typography styles */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-faro font-medium;
+  }
+
+  h1 {
+    @apply text-4xl md:text-5xl lg:text-6xl;
+  }
+
+  h2 {
+    @apply text-3xl md:text-4xl lg:text-5xl;
+  }
+
+  h3 {
+    @apply text-2xl md:text-3xl lg:text-4xl;
+  }
+
+  h4 {
+    @apply text-xl md:text-2xl lg:text-3xl;
+  }
+
+  h5 {
+    @apply text-lg md:text-xl lg:text-2xl;
+  }
+
+  h6 {
+    @apply text-base md:text-lg lg:text-xl;
+  }
+
+  p, li, a, button, input, select, textarea {
+    @apply font-atkinson text-base;
+  }
+
+  code, pre {
+    @apply font-mono text-sm;
+  }
+}
