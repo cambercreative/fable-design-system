@@ -9,6 +9,7 @@ import { usePathname } from 'next/navigation'
 import { useState, useEffect } from 'react'
 import Providers from './providers'
 import StyledComponentsRegistry from '../lib/registry'
+import { Toaster } from '../components/ui/toaster'
 
 export default function RootLayout({
   children,
@@ -71,6 +72,7 @@ export default function RootLayout({
                   </main>
                 </div>
               </div>
+              <Toaster />
               <AxeHelper />
             </Providers>
           </StyledComponentsRegistry>
