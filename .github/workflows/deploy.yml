@@ -24,13 +24,12 @@ jobs:
           cache: 'npm'
           
       - name: Install Dependencies
-        run: npm install
+        run: npm ci
         
-      - name: Build
-        run: npm run build
-        
-      - name: Export Static Files
+      - name: Build and Export
         run: npm run export
+        env:
+          NODE_ENV: production
         
       - name: Add .nojekyll file
         run: touch out/.nojekyll
