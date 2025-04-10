@@ -1,7 +1,6 @@
 "use client"
 
 import './globals.css'
-import type { Metadata } from 'next'
 import { ThemeProvider } from '../components/theme-provider'
 import AxeHelper from './axe-helper'
 import Header from '../components/header'
@@ -10,11 +9,6 @@ import { usePathname } from 'next/navigation'
 import { useState, useEffect } from 'react'
 import Providers from './providers'
 import StyledComponentsRegistry from '../lib/registry'
-
-export const metadata: Metadata = {
-  title: 'Fable Design System',
-  description: "Visual documentation of Fable's design language",
-}
 
 export default function RootLayout({
   children,
