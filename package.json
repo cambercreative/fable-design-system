@@ -8,8 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --write \"app/**/*.{js,jsx,ts,tsx}\"",
-    "export": "next build && next export",
-    "predeploy": "npm run export",
+    "export": "next build",
+    "predeploy": "npm run build",
     "deploy": "touch out/.nojekyll && gh-pages -d out --dotfiles"
   },
   "dependencies": {
