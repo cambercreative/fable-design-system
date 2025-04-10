@@ -11,7 +11,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from './ui/accordion'
-import { ChevronRight, Home, Palette, Components, Layout, FileText, Layers, Settings, Smartphone } from 'lucide-react'
+import { ChevronRight, Home, Palette, Components, Layout, FileText, Layers, Settings, Smartphone, Search } from 'lucide-react'
 
 // Navigation item type
 type NavItem = {
@@ -101,8 +101,11 @@ const navigationItems: NavItem[] = [
   },
   {
     title: 'System Settings',
-    href: '/system-settings',
     icon: <Settings size={18} />,
+    children: [
+      { title: 'General Settings', href: '/system-settings' },
+      { title: 'Search & Filter', href: '/system-settings/search', icon: <Search size={16} /> },
+    ],
   },
 ]
 
@@ -112,7 +115,8 @@ interface MainNavigationProps {
 
 export default function MainNavigation({ isOpen }: MainNavigationProps) {
   const pathname = usePathname()
-  const [openSections, setOpenSections] = useState<string[]>([])
+  const [openSections, setOpenSections] = useState<string[]>([]
+)
 
   // Determine which sections should be open based on the current path
   useEffect(() => {
@@ -191,7 +195,10 @@ export default function MainNavigation({ isOpen }: MainNavigationProps) {
                                   : "hover:bg-surface-primary dark:hover:bg-dark-surface-primary"
                               )}
                             >
-                              {child.title}
+                              <div className="flex items-center gap-2">
+                                {child.icon}
+                                <span>{child.title}</span>
+                              </div>
                             </Link>
                           ))}
                         </div>
