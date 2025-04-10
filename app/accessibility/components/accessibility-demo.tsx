@@ -12,7 +12,7 @@ import { RadioGroup, RadioGroupItem } from '../../../components/ui/radio-group'
 import { Switch } from '../../../components/ui/switch'
 import { Input } from '../../../components/ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../../components/ui/select'
-import { EyeOff, CheckCircle2, XCircle, AlertTriangle, Lightbulb, Keyboard, MousePointer2, Monitor } from 'lucide-react'
+import { EyeOff, CheckCircle2, XCircle, AlertTriangle, Lightbulb, Keyboard, MousePointer2, Monitor, Info } from 'lucide-react'
 
 export default function AccessibilityDemo() {
   const [contrastMode, setContrastMode] = useState<'normal' | 'low' | 'high'>('normal')
