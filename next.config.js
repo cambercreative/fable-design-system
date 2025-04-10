@@ -12,6 +12,10 @@ const nextConfig = {
   experimental: {
     instrumentationHook: false,
     serverComponentsExternalPackages: []
+  },
+  // Explicitly disable image optimization for GitHub Pages
+  images: {
+    unoptimized: true,
   }
 }
 
