@@ -3,7 +3,8 @@
 import { Search, Sun, Moon, Menu, X } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import Link from 'next/link'
-import { useState } from 'react'
+import { useSearch } from './search/search-provider'
+import { SearchButton } from './search/search-button'
 
 interface HeaderProps {
   isSidebarOpen: boolean
@@ -12,13 +13,7 @@ interface HeaderProps {
 
 export default function Header({ isSidebarOpen, toggleSidebar }: HeaderProps) {
   const { theme, setTheme } = useTheme()
-  const [searchQuery, setSearchQuery] = useState('')
-  
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault()
-    // Implement search functionality
-    console.log('Searching for:', searchQuery)
-  }
+  const { setIsSearchOpen } = useSearch()
   
   return (
     <header className="sticky top-0 z-30 w-full border-b border-border bg-surface-primary/80 dark:bg-dark-surface-primary/80 backdrop-blur-md py-3 px-4 md:px-6">
@@ -38,19 +33,17 @@ export default function Header({ isSidebarOpen, toggleSidebar }: HeaderProps) {
           </Link>
         </div>
         
-        <div className="relative hidden md:block w-full max-w-md">
-          <form onSubmit={handleSearch} className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground" size={18} />
-            <input 
-              type="search" 
-              placeholder="Search components..." 
-              className="w-full bg-surface-secondary dark:bg-dark-surface-secondary border border-border rounded-md pl-10 pr-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              aria-label="Search components"
-            />
-          </form>
+        <div className="w-full max-w-md hidden md:block">
+          <SearchButton />
         </div>
+        
+        <button
+          className="flex md:hidden items-center justify-center p-2 rounded-md hover:bg-surface-secondary dark:hover:bg-dark-surface-secondary transition-colors"
+          onClick={() => setIsSearchOpen(true)}
+          aria-label="Search"
+        >
+          <Search size={20} />
+        </button>
         
         <div className="flex items-center ml-auto space-x-2 md:space-x-4">
           <button
