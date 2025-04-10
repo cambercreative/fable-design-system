@@ -420,7 +420,7 @@ export default function CardsPage() {
                 </tr>
                 <tr className="border-b">
                   <td className="py-2 px-4 font-atkinson text-body font-medium">onPress</td>
-                  <td className="py-2 px-4 font-atkinson text-body">() => void</td>
+                  <td className="py-2 px-4 font-atkinson text-body">() =&gt; void</td>
                   <td className="py-2 px-4 font-atkinson text-body">undefined</td>
                   <td className="py-2 px-4 font-atkinson text-body">Callback function when the card is clicked.</td>
                 </tr>
