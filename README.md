@@ -1,129 +1,91 @@
 # Fable Design System
 
-A comprehensive design system for Fable - capturing life stories through AI.
+Visual documentation of Fable's design language, components, and patterns that power our AI-driven life stories platform.
 
 ## Overview
 
-The Fable Design System is a collection of reusable components, design guidelines, and resources that ensure consistency and quality across all Fable products. This repository hosts the design system documentation website and component library.
+The Fable Design System provides a comprehensive collection of design guidelines, components, and patterns that ensure consistent, accessible, and delightful experiences across all Fable products.
 
 ## Features
 
-- **Component Library**: A collection of React components built with styled-components
-- **Design Guidelines**: Principles, best practices, and usage guidelines
-- **Design Tokens**: Colors, typography, spacing, and other design variables
-- **Resources**: Assets, tools, and templates for designers and developers
+- **Design Foundations**: Colors, typography, spacing, and other core design elements
+- **Component Library**: Interactive UI components with documentation and code examples
+- **Patterns & Templates**: Common UI patterns and page templates for rapid development
+- **Accessibility**: WCAG 2.1 Level AA compliant components and guidelines
+- **Responsive Design**: Comprehensive specifications for different screen sizes
+
+## Technology
+
+- **Framework**: Next.js with React
+- **Styling**: Tailwind CSS
+- **Component Library**: Modified ShadCN UI components
+- **Typography**: Faro and Atkinson Hyperlegible Next
+- **Animation**: Framer Motion
+- **Code Highlighting**: Prism.js
+- **Accessibility Testing**: axe-core
 
 ## Getting Started
 
 ### Prerequisites
 
-- Node.js (v16 or higher)
+- Node.js 18 or higher
 - npm or yarn
 
 ### Installation
 
-1. Clone the repository:
 ```bash
+# Clone the repository
 git clone https://github.com/cambercreative/fable-design-system.git
+
+# Navigate to the project directory
 cd fable-design-system
-```
 
-2. Install dependencies:
-```bash
+# Install dependencies
 npm install
-```
 
-3. Start the development server:
-```bash
+# Start the development server
 npm run dev
 ```
 
-4. Open [http://localhost:3000](http://localhost:3000) to view the design system website.
+## Usage
 
-### Storybook
+Visit `http://localhost:3000` to view the design system in your browser.
 
-To explore and develop components in isolation:
+## Structure
 
-```bash
-npm run storybook
-```
+- `/app` - Next.js application pages
+- `/components` - Reusable UI components
+  - `/ui` - Core UI components
+  - `/lib` - Utility functions
+- `/public` - Static assets
 
-This will start Storybook at [http://localhost:6006](http://localhost:6006).
-
-## Using the Design System
-
-### Installing as a Dependency
+## Development
 
 ```bash
-npm install @fable/design-system
-```
+# Run development server
+npm run dev
 
-### Importing Components
+# Build for production
+npm run build
 
-```jsx
-import { Button } from '@fable/design-system';
+# Start production server
+npm run start
 
-function App() {
-  return (
-    <Button variant="primary" size="medium">
-      Click Me
-    </Button>
-  );
-}
-```
+# Format code with Prettier
+npm run format
 
-### Theming
-
-```jsx
-import { ThemeProvider } from 'styled-components';
-import { theme } from '@fable/design-system';
-
-function App() {
-  return (
-    <ThemeProvider theme={theme}>
-      {/* Your application */}
-    </ThemeProvider>
-  );
-}
-```
-
-## Contributing
-
-### Development Workflow
-
-1. Create a feature branch:
-```bash
-git checkout -b feature/component-name
-```
-
-2. Make your changes and test them in Storybook.
-
-3. Submit a pull request.
-
-### Directory Structure
-
-```
-/
-├── .github/            # GitHub-specific files (workflows, templates)
-├── .storybook/         # Storybook configuration
-├── public/             # Static assets
-├── src/
-│   ├── assets/         # Images, fonts, etc.
-│   ├── components/     # Reusable UI components
-│   ├── pages/          # Website pages
-│   ├── styles/         # Global styles and themes
-│   └── utils/          # Utility functions
-└── docs/               # Additional documentation
+# Run linter
+npm run lint
 ```
 
 ## Deployment
 
-The design system website is automatically deployed to GitHub Pages when changes are pushed to the main branch.
+The design system is automatically deployed to GitHub Pages when changes are pushed to the main branch.
+
+## Contributing
+
+Please refer to the guidelines in the Design System Document (DSD) for contribution instructions.
 
 ## License
 
-This project is proprietary and confidential. Unauthorized copying, distribution, or use is strictly prohibited.
-
-## Contact
-
-For any questions or issues, please contact the Fable design team.
+This project is proprietary to Fable LLC. All rights reserved.
