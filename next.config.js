@@ -9,11 +9,8 @@ const nextConfig = {
   distDir: 'out',
   // Add trailing slash to improve compatibility
   trailingSlash: true,
-  // Remove assetPrefix as it's handled by basePath
-  // Ensure experimental features are compatible with static export
-  experimental: {
-    appDir: true,
-  },
+  // Remove experimental.appDir as it's no longer needed in Next.js 14
+  // In Next.js 14, the App Router is stable and enabled by default
 }
 
 module.exports = nextConfig
