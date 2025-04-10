@@ -7,6 +7,16 @@ const nextConfig = {
   output: 'export',
   basePath: process.env.NODE_ENV === 'production' ? '/fable-design-system' : '',
   distDir: 'out',
+  // Add redirects for GitHub Pages 404 handling
+  async redirects() {
+    return [
+      {
+        source: '/fable-design-system',
+        destination: '/',
+        permanent: true,
+      },
+    ];
+  },
 }
 
 module.exports = nextConfig

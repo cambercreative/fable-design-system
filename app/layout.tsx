@@ -1,6 +1,7 @@
 import './globals.css'
 import type { Metadata } from 'next'
 import { ThemeProvider } from '../components/theme-provider'
+import AxeHelper from './axe-helper'
 
 export const metadata: Metadata = {
   title: 'Fable Design System',
@@ -25,6 +26,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           {children}
+          <AxeHelper />
         </ThemeProvider>
       </body>
     </html>
