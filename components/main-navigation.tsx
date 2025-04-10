@@ -11,7 +11,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from './ui/accordion'
-import { ChevronRight, Home, Palette, Components, Layout, FileText, Layers, Settings, Smartphone } from 'lucide-react'
+import { ChevronRight, Home, Palette, Components, Layout, FileText, Layers, Settings, Smartphone, Code } from 'lucide-react'
 
 // Navigation item type
 type NavItem = {
@@ -43,6 +43,7 @@ const navigationItems: NavItem[] = [
       { title: 'Shape System', href: '/design-foundations/shape-system' },
       { title: 'Motion', href: '/design-foundations/motion' },
       { title: 'Light & Dark Mode', href: '/design-foundations/themes' },
+      { title: 'Code Playground', href: '/design-foundations/playground' },
     ],
   },
   {
