@@ -11,7 +11,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from './ui/accordion'
-import { ChevronRight, Home, Palette, Components, Layout, FileText, Layers, Settings } from 'lucide-react'
+import { ChevronRight, Home, Palette, Components, Layout, FileText, Layers, Settings, Smartphone } from 'lucide-react'
 
 // Navigation item type
 type NavItem = {
@@ -61,6 +61,14 @@ const navigationItems: NavItem[] = [
       { title: 'Progress', href: '/components/progress' },
       { title: 'Notifications', href: '/components/notifications' },
       { title: 'Voice UI', href: '/components/voice-ui' },
+    ],
+  },
+  {
+    title: 'Platform Guidelines',
+    icon: <Smartphone size={18} />,
+    children: [
+      { title: 'Overview', href: '/platform-guidelines' },
+      { title: 'Component Adaptations', href: '/platform-guidelines/component-adaptations' },
     ],
   },
   {
