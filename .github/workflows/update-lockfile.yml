@@ -1,31 +1,32 @@
-name: Update Package Lock
+name: Update Package Lock File
 
 on:
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   update-lockfile:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
-      
+        uses: actions/checkout@v3
+
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v3
         with:
-          node-version: '18'
-          cache: 'npm'
-      
-      - name: Delete old lockfile
-        run: rm -f package-lock.json
-      
-      - name: Install dependencies and generate lockfile
+          node-version: 18
+          
+      - name: Clean npm cache
+        run: npm cache clean --force
+          
+      - name: Install dependencies and update lockfile
         run: npm install --package-lock-only
-      
-      - name: Commit changes
-        uses: stefanzweifel/git-auto-commit-action@v5
+        
+      - name: Commit updated lockfile
+        uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          commit_message: "Update package-lock.json to match dependencies"
-          file_pattern: 'package-lock.json'
+          commit_message: "Update package-lock.json to match package.json"
+          file_pattern: "package-lock.json"
+          branch: main
