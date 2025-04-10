@@ -7,14 +7,16 @@ import { Button } from '@/components/ui/button';
 import { Clipboard, Check, EyeIcon, Code as CodeIcon } from 'lucide-react';
 import { Highlight, themes } from 'prism-react-renderer';
 import { useTheme } from 'next-themes';
-import { generateComponentCode, generateFullExample } from './code-generator';
+import { generateComponentCode } from './code-generator';
 
 interface PropertyControl {
   type: 'select' | 'boolean' | 'string' | 'number' | 'color';
   label: string;
+  prop: string;
   options?: string[];
   defaultValue: any;
-  prop: string;
+  description?: string;
+  disabled?: boolean;
 }
 
 interface CodePlaygroundProps {
@@ -32,24 +34,20 @@ export default function CodePlayground({
   properties,
   defaultCode,
   description,
-  children
+  children,
 }: CodePlaygroundProps) {
-  const [props, setProps] = useState<Record<string, any>>({});
+  // Initialize props from defaultValues
+  const initialProps = properties.reduce((acc, property) => {
+    acc[property.prop] = property.defaultValue;
+    return acc;
+  }, {} as Record<string, any>);
+
+  const [props, setProps] = useState<Record<string, any>>(initialProps);
+  const [generatedCode, setGeneratedCode] = useState(defaultCode);
   const [activeTab, setActiveTab] = useState<'preview' | 'code'>('preview');
   const [copied, setCopied] = useState(false);
-  const [generatedCode, setGeneratedCode] = useState('');
-  const { theme: appTheme } = useTheme();
-  const isDark = appTheme === 'dark';
-
-  // Initialize props with default values
-  useEffect(() => {
-    const initialProps = properties.reduce((acc, property) => {
-      acc[property.prop] = property.defaultValue;
-      return acc;
-    }, {} as Record<string, any>);
-    
-    setProps(initialProps);
-  }, [properties]);
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
 
   // Generate code based on current props
   useEffect(() => {
@@ -58,11 +56,11 @@ export default function CodePlayground({
     setGeneratedCode(code);
   }, [props, componentName]);
 
-  // Handle property change
+  // Handle property changes
   const handlePropertyChange = (prop: string, value: any) => {
     setProps((prevProps) => ({
       ...prevProps,
-      [prop]: value
+      [prop]: value,
     }));
   };
 
@@ -113,8 +111,8 @@ export default function CodePlayground({
                   <div className="space-y-m">
                     {properties.map((property) => (
                       <div key={property.prop} className="space-y-xs">
-                        <label className="block text-caption font-atkinson">
-                          {property.label}
+                        <label className="flex items-center justify-between">
+                          <span className="text-caption font-atkinson font-medium">{property.label}</span>
                         </label>
                         
                         {property.type === 'select' && property.options && (
@@ -132,16 +130,16 @@ export default function CodePlayground({
                         )}
                         
                         {property.type === 'boolean' && (
-                          <div className="flex items-center">
+                          <div className="flex items-center space-x-s">
                             <input
                               type="checkbox"
                               id={`prop-${property.prop}`}
                               checked={!!props[property.prop]}
                               onChange={(e) => handlePropertyChange(property.prop, e.target.checked)}
-                              className="mr-s h-4 w-4 rounded-xs border-border-default bg-surface-tertiary"
+                              className="rounded-s border-border-default"
                             />
                             <label htmlFor={`prop-${property.prop}`} className="text-caption font-atkinson">
-                              Enabled
+                              {props[property.prop] ? 'True' : 'False'}
                             </label>
                           </div>
                         )}
@@ -165,12 +163,12 @@ export default function CodePlayground({
                         )}
                         
                         {property.type === 'color' && (
-                          <div className="flex items-center gap-s">
+                          <div className="flex space-x-s">
                             <input
                               type="color"
-                              value={props[property.prop] || '#FFFFFF'}
+                              value={props[property.prop] || '#000000'}
                               onChange={(e) => handlePropertyChange(property.prop, e.target.value)}
-                              className="h-8 w-8 rounded-xs cursor-pointer"
+                              className="h-8 w-8 rounded-s border border-border-default"
                             />
                             <input
                               type="text"
@@ -179,6 +177,12 @@ export default function CodePlayground({
                               className="flex-1 rounded-s border border-border-default bg-surface-tertiary dark:bg-surface-tertiary px-s py-xs text-caption font-atkinson"
                             />
                           </div>
+                        )}
+                        
+                        {property.description && (
+                          <p className="text-xs text-text-tertiary font-atkinson">
+                            {property.description}
+                          </p>
                         )}
                       </div>
                     ))}
