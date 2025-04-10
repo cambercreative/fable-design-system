@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Clipboard, Check, EyeIcon, Code as CodeIcon } from 'lucide-react';
 import { Highlight, themes } from 'prism-react-renderer';
 import { useTheme } from 'next-themes';
+import { generateComponentCode, generateFullExample } from './code-generator';
 
 interface PropertyControl {
   type: 'select' | 'boolean' | 'string' | 'number' | 'color';
@@ -52,24 +53,8 @@ export default function CodePlayground({
 
   // Generate code based on current props
   useEffect(() => {
-    let code = `<${componentName}`;
-    
-    // Add props to the component
-    Object.entries(props).forEach(([key, value]) => {
-      if (typeof value === 'string') {
-        code += `\n  ${key}="${value}"`;
-      } else if (typeof value === 'boolean') {
-        if (value) {
-          code += `\n  ${key}`;
-        }
-      } else {
-        code += `\n  ${key}={${JSON.stringify(value)}}`;
-      }
-    });
-    
-    // Close the component tag
-    code += `\n/>`;
-    
+    // Generate component code using the utility function
+    const code = generateComponentCode(componentName, props);
     setGeneratedCode(code);
   }, [props, componentName]);
 
