@@ -9,8 +9,14 @@ const nextConfig = {
   distDir: 'out',
   // Add trailing slash to improve compatibility
   trailingSlash: true,
-  // Remove experimental.appDir as it's no longer needed in Next.js 14
-  // In Next.js 14, the App Router is stable and enabled by default
+  // Skip image optimization for faster builds
+  skipTrailingSlashRedirect: true,
+  // Explicitly disable favicon generation
+  experimental: {
+    // Disable features that might be causing favicon issues
+    instrumentationHook: false,
+    serverComponentsExternalPackages: []
+  }
 }
 
 module.exports = nextConfig
