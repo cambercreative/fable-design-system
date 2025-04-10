@@ -4,11 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "NEXT_DISABLE_IMAGE_OPTIMIZATION=true NEXT_DISABLE_METADATA=true next build",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "format": "prettier --write \"app/**/*.{js,jsx,ts,tsx}\"",
-    "export": "NEXT_DISABLE_IMAGE_OPTIMIZATION=true NEXT_DISABLE_METADATA=true next build",
     "predeploy": "npm run build",
     "deploy": "touch out/.nojekyll && gh-pages -d out --dotfiles"
   },
