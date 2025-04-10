@@ -2,6 +2,8 @@ import React from 'react';
 import Link from 'next/link';
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 export const metadata = {
   title: 'Animation and Motion | Fable Design System',
@@ -55,6 +57,18 @@ export default function AnimationPage() {
               </p>
             </li>
           </ul>
+          
+          <div className="mt-6">
+            <Link href="/design-foundations/animation/motion-concepts">
+              <Button variant="outline" className="flex items-center">
+                Explore Motion Concepts
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ml-2">
+                  <path d="M5 12h14"></path>
+                  <path d="M12 5l7 7-7 7"></path>
+                </svg>
+              </Button>
+            </Link>
+          </div>
         </div>
         <div>
           <h2 className="font-display text-2xl font-semibold mb-4">When to Use Animation</h2>
@@ -97,24 +111,109 @@ export default function AnimationPage() {
 
       <div className="mb-12">
         <h2 className="font-display text-2xl font-semibold mb-6">Animation Categories</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <Link href="/design-foundations/animation/timing" className="block p-6 bg-card rounded-lg border border-border hover:border-primary transition-colors duration-200">
             <h3 className="font-display text-xl font-medium mb-2">Timing & Easing</h3>
             <p className="text-muted-foreground">
               Standard duration tokens and easing curves that create consistent motion throughout the interface.
             </p>
           </Link>
+          
           <Link href="/design-foundations/animation/transitions" className="block p-6 bg-card rounded-lg border border-border hover:border-primary transition-colors duration-200">
             <h3 className="font-display text-xl font-medium mb-2">Transitions</h3>
             <p className="text-muted-foreground">
               Common transition patterns for elements entering, exiting, or changing state within the interface.
             </p>
           </Link>
+          
           <Link href="/design-foundations/animation/microinteractions" className="block p-6 bg-card rounded-lg border border-border hover:border-primary transition-colors duration-200">
             <h3 className="font-display text-xl font-medium mb-2">Micro-interactions</h3>
             <p className="text-muted-foreground">
               Small, focused animations that provide feedback and enhance the feeling of direct manipulation.
             </p>
+          </Link>
+          
+          <Link href="/design-foundations/animation/page-transitions" className="block p-6 bg-card rounded-lg border border-border hover:border-primary transition-colors duration-200">
+            <h3 className="font-display text-xl font-medium mb-2">Page Transitions</h3>
+            <p className="text-muted-foreground">
+              Smooth, contextual animations for navigating between different screens and states in the application.
+            </p>
+          </Link>
+          
+          <Link href="/design-foundations/animation/component-animations" className="block p-6 bg-card rounded-lg border border-border hover:border-primary transition-colors duration-200">
+            <h3 className="font-display text-xl font-medium mb-2">Component Animations</h3>
+            <p className="text-muted-foreground">
+              Specific animation patterns for different UI components that enhance usability and provide feedback.
+            </p>
+          </Link>
+          
+          <Link href="/design-foundations/animation/motion-concepts" className="block p-6 bg-card rounded-lg border border-border hover:border-primary transition-colors duration-200">
+            <h3 className="font-display text-xl font-medium mb-2">Motion Concepts</h3>
+            <p className="text-muted-foreground">
+              Core concepts about how movement works in Fable, including motion curves, patterns, and principles.
+            </p>
+          </Link>
+        </div>
+      </div>
+
+      <Separator className="my-10" />
+
+      <div className="mb-12">
+        <h2 className="font-display text-2xl font-semibold mb-6">Animation Timing at a Glance</h2>
+        <div className="overflow-x-auto">
+          <table className="w-full border-collapse">
+            <thead>
+              <tr className="border-b border-border">
+                <th className="text-left py-3 px-4">Token</th>
+                <th className="text-left py-3 px-4">Duration</th>
+                <th className="text-left py-3 px-4">Easing</th>
+                <th className="text-left py-3 px-4">Usage</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr className="border-b border-border">
+                <td className="py-3 px-4 font-medium">timing-instant</td>
+                <td className="py-3 px-4">0ms</td>
+                <td className="py-3 px-4">linear</td>
+                <td className="py-3 px-4">Immediate feedback, real-time visualization</td>
+              </tr>
+              <tr className="border-b border-border">
+                <td className="py-3 px-4 font-medium">timing-quick</td>
+                <td className="py-3 px-4">100ms</td>
+                <td className="py-3 px-4">ease-out</td>
+                <td className="py-3 px-4">Micro-interactions, button presses, hover states</td>
+              </tr>
+              <tr className="border-b border-border">
+                <td className="py-3 px-4 font-medium">timing-standard</td>
+                <td className="py-3 px-4">200ms</td>
+                <td className="py-3 px-4">ease-in-out</td>
+                <td className="py-3 px-4">Standard transitions, focus states, selection changes</td>
+              </tr>
+              <tr className="border-b border-border">
+                <td className="py-3 px-4 font-medium">timing-relaxed</td>
+                <td className="py-3 px-4">300ms</td>
+                <td className="py-3 px-4">ease-in-out</td>
+                <td className="py-3 px-4">Content transitions, page changes, expansions</td>
+              </tr>
+              <tr>
+                <td className="py-3 px-4 font-medium">timing-elaborate</td>
+                <td className="py-3 px-4">500ms</td>
+                <td className="py-3 px-4">ease-in-out-cubic</td>
+                <td className="py-3 px-4">Complex animations, celebrations, attention-drawing moments</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <div className="mt-6 flex justify-end">
+          <Link href="/design-foundations/animation/timing">
+            <Button variant="outline" className="flex items-center">
+              View Detailed Timing Documentation
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ml-2">
+                <path d="M5 12h14"></path>
+                <path d="M12 5l7 7-7 7"></path>
+              </svg>
+            </Button>
           </Link>
         </div>
       </div>
@@ -156,6 +255,55 @@ return (
   </motion.div>
 );`}
           </pre>
+          
+          <div className="mt-6 flex justify-end">
+            <Link href="/design-foundations/animation/component-animations">
+              <Button variant="outline" className="flex items-center">
+                See Component-Specific Guidelines
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ml-2">
+                  <path d="M5 12h14"></path>
+                  <path d="M12 5l7 7-7 7"></path>
+                </svg>
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </div>
+      
+      <Separator className="my-10" />
+      
+      <div className="mb-12">
+        <h2 className="font-display text-2xl font-semibold mb-6">Animation Implementation</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="bg-card border border-border rounded-lg p-6">
+            <h3 className="font-display text-xl font-medium mb-3">Recommended Libraries</h3>
+            <ul className="list-disc pl-5 space-y-2 text-muted-foreground">
+              <li><strong>Framer Motion</strong>: Primary animation library for React components</li>
+              <li><strong>CSS Transitions</strong>: For simple state changes and hover effects</li>
+              <li><strong>CSS Animations</strong>: For repeating or keyframe-based animations</li>
+              <li><strong>React Spring</strong>: Alternative physics-based animation library</li>
+            </ul>
+            
+            <p className="mt-4 text-sm text-muted-foreground">
+              For complex sequences and orchestrated animations, Framer Motion is recommended. For simple state transitions, CSS may be sufficient.
+            </p>
+          </div>
+          
+          <div className="bg-card border border-border rounded-lg p-6">
+            <h3 className="font-display text-xl font-medium mb-3">Animation Best Practices</h3>
+            <ul className="list-disc pl-5 space-y-2 text-muted-foreground">
+              <li>Use CSS transforms and opacity for performance</li>
+              <li>Avoid animating layout properties when possible</li>
+              <li>Always provide fallbacks for reduced motion</li>
+              <li>Keep animations under 500ms unless absolutely necessary</li>
+              <li>Test animations on lower-powered devices</li>
+              <li>Ensure all animations can be interrupted by user input</li>
+            </ul>
+            
+            <p className="mt-4 text-sm text-muted-foreground">
+              For detailed implementation guides, see the component-specific and page transition documentation.
+            </p>
+          </div>
         </div>
       </div>
     </div>
