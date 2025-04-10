@@ -92,6 +92,34 @@ The system checks for improper use of Tailwind CSS, specifically:
 - Use of arbitrary values in class notation (e.g., `w-[42rem]`, `h-[600px]`, etc.)
 - Proper use of design tokens instead of hardcoded values
 
+## Package Lock File Management
+
+### Maintaining package-lock.json Sync
+
+The system includes automated tools to keep package.json and package-lock.json in sync:
+
+1. **Self-healing deployment workflow**: The deployment workflow checks if package-lock.json is out of sync and automatically updates it if needed.
+
+2. **Manual lock file update workflow**: A dedicated workflow (`update-lockfile.yml`) can be triggered manually to update the package-lock.json file without requiring local development environment.
+
+3. **Local development best practices**:
+   - Always run `npm install` after modifying package.json
+   - Commit both package.json and package-lock.json together
+   - Run `npm ci` for clean installs to verify lock file consistency
+
+### Common Lock File Synchronization Issues
+
+If you encounter errors like:
+
+```
+npm error `npm ci` can only install packages when your package.json and package-lock.json or npm-shrinkwrap.json are in sync.
+```
+
+You can resolve them by:
+
+1. **Local fix**: Run `npm install --package-lock-only` to update the lock file without installing packages
+2. **Remote fix**: Trigger the "Update Package Lock File" workflow from GitHub Actions
+
 ## Component Dependency Visualization
 
 The system generates an interactive visualization of component dependencies, showing:
@@ -125,6 +153,14 @@ If the dependency graph fails to generate:
 1. Ensure the `scripts` directory is executable (run `chmod +x scripts/*.js`)
 2. Verify that the `glob` package is installed
 3. Make sure the `public/data` directory exists and is writable
+
+### CI/CD Failures
+
+If the CI/CD workflow fails with dependency issues:
+
+1. Check the workflow logs for specific error messages
+2. If package-lock.json is out of sync, trigger the "Update Package Lock File" workflow
+3. Verify that all required dependencies are installed with the correct versions
 
 ## Future Enhancements
 
