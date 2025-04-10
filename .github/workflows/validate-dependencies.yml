@@ -1,0 +1,168 @@
+name: Validate Dependencies
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'package.json'
+      - 'package-lock.json'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'package.json'
+      - 'package-lock.json'
+  workflow_dispatch:
+
+jobs:
+  validate:
+    name: Validate DSD Dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Validate Radix UI Dependencies
+        run: |
+          echo "Validating required Radix UI dependencies..."
+          
+          MISSING_DEPS=""
+          
+          # Define required Radix UI packages from DSD
+          REQUIRED_RADIX=(
+            "@radix-ui/react-accordion"
+            "@radix-ui/react-checkbox"
+            "@radix-ui/react-dialog"
+            "@radix-ui/react-dropdown-menu"
+            "@radix-ui/react-label"
+            "@radix-ui/react-navigation-menu"
+            "@radix-ui/react-radio-group"
+            "@radix-ui/react-scroll-area"
+            "@radix-ui/react-select"
+            "@radix-ui/react-slot"
+            "@radix-ui/react-switch"
+            "@radix-ui/react-tabs"
+            "@radix-ui/react-toast"
+            "@radix-ui/react-tooltip"
+          )
+          
+          # Check each dependency
+          for dep in "${REQUIRED_RADIX[@]}"; do
+            if ! grep -q "\"$dep\":" package.json; then
+              MISSING_DEPS="$MISSING_DEPS\n - $dep"
+            fi
+          done
+          
+          # Define required support dependencies from DSD
+          REQUIRED_SUPPORT=(
+            "class-variance-authority"
+            "clsx"
+            "lucide-react"
+            "tailwind-merge"
+            "tailwindcss-animate"
+          )
+          
+          # Check each support dependency
+          for dep in "${REQUIRED_SUPPORT[@]}"; do
+            if ! grep -q "\"$dep\":" package.json; then
+              MISSING_DEPS="$MISSING_DEPS\n - $dep"
+            fi
+          done
+          
+          # Define core framework dependencies
+          REQUIRED_CORE=(
+            "react"
+            "react-dom"
+            "next"
+            "tailwindcss"
+          )
+          
+          # Check each core dependency
+          for dep in "${REQUIRED_CORE[@]}"; do
+            if ! grep -q "\"$dep\":" package.json; then
+              MISSING_DEPS="$MISSING_DEPS\n - $dep"
+            fi
+          done
+          
+          # Report and fail if dependencies are missing
+          if [ -n "$MISSING_DEPS" ]; then
+            echo -e "❌ Missing required dependencies:$MISSING_DEPS"
+            exit 1
+          else
+            echo "✅ All required dependencies are installed"
+          fi
+      
+      - name: Validate Version Requirements
+        run: |
+          echo "Validating version requirements..."
+          
+          # Extract version numbers
+          NODE_VERSION=$(node -v | cut -d 'v' -f 2)
+          REACT_VERSION=$(grep -o '"react": "\^[0-9]*\.[0-9]*\.[0-9]*"' package.json | grep -o '[0-9]*\.[0-9]*\.[0-9]*')
+          NEXT_VERSION=$(grep -o '"next": "[0-9]*\.[0-9]*\.[0-9]*"' package.json | grep -o '[0-9]*\.[0-9]*\.[0-9]*')
+          TAILWIND_VERSION=$(grep -o '"tailwindcss": "\^[0-9]*\.[0-9]*\.[0-9]*"' package.json | grep -o '[0-9]*\.[0-9]*\.[0-9]*')
+          
+          VERSION_ISSUES=""
+          
+          # Validate Node.js version (v18.x or higher)
+          NODE_MAJOR=$(echo $NODE_VERSION | cut -d '.' -f 1)
+          if [ "$NODE_MAJOR" -lt 18 ]; then
+            VERSION_ISSUES="$VERSION_ISSUES\n - Node.js: $NODE_VERSION (required ≥ 18.x)"
+          fi
+          
+          # Validate React version (^18.2.0)
+          REACT_MAJOR=$(echo $REACT_VERSION | cut -d '.' -f 1)
+          if [ "$REACT_MAJOR" -lt 18 ]; then
+            VERSION_ISSUES="$VERSION_ISSUES\n - React: $REACT_VERSION (required ≥ 18.2.0)"
+          fi
+          
+          # Validate Next.js version (^14.0.0)
+          NEXT_MAJOR=$(echo $NEXT_VERSION | cut -d '.' -f 1)
+          if [ "$NEXT_MAJOR" -lt 14 ]; then
+            VERSION_ISSUES="$VERSION_ISSUES\n - Next.js: $NEXT_VERSION (required ≥ 14.0.0)"
+          fi
+          
+          # Validate Tailwind CSS version (^3.3.5)
+          TAILWIND_MAJOR=$(echo $TAILWIND_VERSION | cut -d '.' -f 1)
+          TAILWIND_MINOR=$(echo $TAILWIND_VERSION | cut -d '.' -f 2)
+          TAILWIND_PATCH=$(echo $TAILWIND_VERSION | cut -d '.' -f 3)
+          if [ "$TAILWIND_MAJOR" -lt 3 ] || ([ "$TAILWIND_MAJOR" -eq 3 ] && [ "$TAILWIND_MINOR" -lt 3 ]) || ([ "$TAILWIND_MAJOR" -eq 3 ] && [ "$TAILWIND_MINOR" -eq 3 ] && [ "$TAILWIND_PATCH" -lt 5 ]); then
+            VERSION_ISSUES="$VERSION_ISSUES\n - Tailwind CSS: $TAILWIND_VERSION (required ≥ 3.3.5)"
+          fi
+          
+          # Report and fail if version issues are found
+          if [ -n "$VERSION_ISSUES" ]; then
+            echo -e "❌ Version requirement issues:$VERSION_ISSUES"
+            exit 1
+          else
+            echo "✅ All version requirements met"
+          fi
+      
+      - name: Verify Next.js Configuration
+        run: |
+          echo "Verifying Next.js configuration..."
+          
+          if ! grep -q "output: 'export'" next.config.js; then
+            echo "❌ Missing 'output: export' in next.config.js"
+            exit 1
+          fi
+          
+          if ! grep -q "basePath: process.env.NODE_ENV === 'production'" next.config.js; then
+            echo "❌ Missing proper basePath configuration in next.config.js"
+            exit 1
+          fi
+          
+          if ! grep -q "unoptimized: true" next.config.js; then
+            echo "❌ Missing 'unoptimized: true' for images in next.config.js"
+            exit 1
+          fi
+          
+          echo "✅ Next.js configuration verified"
