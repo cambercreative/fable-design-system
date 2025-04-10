@@ -2,6 +2,8 @@
 
 import React, { ReactNode } from 'react';
 import { ThemeProvider } from 'styled-components';
+import { SearchProvider } from '../components/search';
+import { SearchDialog } from '../components/search';
 
 // Default theme that provides basic styling tokens
 const defaultTheme = {
@@ -30,7 +32,10 @@ const defaultTheme = {
 export default function Providers({ children }: { children: ReactNode }) {
   return (
     <ThemeProvider theme={defaultTheme}>
-      {children}
+      <SearchProvider>
+        {children}
+        <SearchDialog />
+      </SearchProvider>
     </ThemeProvider>
   );
 }
