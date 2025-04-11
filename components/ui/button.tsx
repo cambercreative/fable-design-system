@@ -11,6 +11,7 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
+        // Fable design system variants
         primary: 
           "bg-gradient-to-r from-fable-red to-fable-amber text-white shadow-elevation-1 hover:brightness-110 active:brightness-90 active:scale-98 dark:from-fable-deep-purple dark:to-fable-deep-blue disabled:opacity-40",
         secondary:
@@ -19,6 +20,14 @@ const buttonVariants = cva(
           "bg-transparent text-fable-red h-10 hover:bg-fable-red/5 active:bg-fable-red/10 dark:text-fable-deep-purple disabled:opacity-40",
         icon:
           "p-2 text-text-secondary hover:text-fable-red active:scale-95 dark:hover:text-fable-deep-purple rounded-full w-11 h-11 flex items-center justify-center",
+          
+        // Legacy/backward compatibility variants
+        default: 
+          "bg-gradient-to-r from-fable-red to-fable-amber text-white shadow-elevation-1 hover:brightness-110 active:brightness-90 active:scale-98 dark:from-fable-deep-purple dark:to-fable-deep-blue disabled:opacity-40",
+        outline:
+          "border border-fable-red dark:border-fable-deep-purple bg-transparent text-fable-red dark:text-fable-deep-purple hover:bg-fable-red/5 active:bg-fable-red/10 disabled:opacity-40",
+        ghost: 
+          "bg-transparent text-fable-red hover:bg-fable-red/5 active:bg-fable-red/10 dark:text-fable-deep-purple disabled:opacity-40",
       },
       size: {
         default: "h-12 px-4 py-2", // 48px standard height
