@@ -1,31 +1,52 @@
 "use client"
 
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { Button } from '../ui/button'
 import { Search } from 'lucide-react'
-import { useSearch } from './search-provider'
+import { useSearch } from './index'
 
-export function SearchButton() {
-  const { setIsSearchOpen } = useSearch()
+/**
+ * SearchButton properties
+ */
+export interface SearchButtonProps {
+  /**
+   * Additional class names for the button
+   */
+  className?: string;
+}
+
+/**
+ * Search button component that opens the search dialog
+ * Also adds keyboard shortcut (Cmd+K or Ctrl+K)
+ *
+ * @returns The search button component
+ */
+export function SearchButton({ className }: SearchButtonProps = {}): React.ReactElement {
+  const { openDialog } = useSearch()
+  
+  /**
+   * Handle keyboard shortcut for search
+   * 
+   * @param event - Keyboard event
+   */
+  const handleKeyDown = (event: KeyboardEvent): void => {
+    if ((event.metaKey || event.ctrlKey) && event.key === 'k') {
+      event.preventDefault()
+      openDialog()
+    }
+  }
   
   // Add keyboard shortcut (Cmd+K or Ctrl+K)
   useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if ((event.metaKey || event.ctrlKey) && event.key === 'k') {
-        event.preventDefault()
-        setIsSearchOpen(true)
-      }
-    }
-    
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [setIsSearchOpen])
+  }, [openDialog])
   
   return (
     <Button
       variant="outline"
-      className="w-full justify-between hidden md:flex"
-      onClick={() => setIsSearchOpen(true)}
+      className={`w-full justify-between hidden md:flex ${className || ''}`}
+      onClick={(): void => openDialog()}
     >
       <div className="flex items-center gap-2">
         <Search className="w-4 h-4" />
