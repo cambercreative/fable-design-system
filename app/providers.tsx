@@ -29,7 +29,8 @@ const defaultTheme = {
   }
 };
 
-export default function Providers({ children }: { children: ReactNode }) {
+// Changed from default export to named export to match import in layout.tsx
+export function Providers({ children }: { children: ReactNode }) {
   return (
     <ThemeProvider theme={defaultTheme}>
       <SearchProvider>
