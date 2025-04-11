@@ -1,33 +1,93 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, ChangeEvent } from 'react';
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Clipboard, Check, EyeIcon, Code as CodeIcon } from 'lucide-react';
-import { Highlight, themes } from 'prism-react-renderer';
+import { Highlight, themes, Prism } from 'prism-react-renderer';
 import { useTheme } from 'next-themes';
 import { generateComponentCode } from './code-generator';
 
-interface PropertyControl {
+/**
+ * Defines the structure of a property control in the playground
+ */
+export interface PropertyControl {
+  /**
+   * The type of control to render
+   */
   type: 'select' | 'boolean' | 'string' | 'number' | 'color';
+  
+  /**
+   * Display label for the control
+   */
   label: string;
+  
+  /**
+   * The property name in the component
+   */
   prop: string;
+  
+  /**
+   * Options for select controls
+   */
   options?: string[];
+  
+  /**
+   * Default value for the control
+   */
   defaultValue: any;
+  
+  /**
+   * Optional description of the property
+   */
   description?: string;
+  
+  /**
+   * Whether the control is disabled
+   */
   disabled?: boolean;
 }
 
-interface CodePlaygroundProps {
+/**
+ * Props for the CodePlayground component
+ */
+export interface CodePlaygroundProps {
+  /**
+   * The React component to render in the playground
+   */
   component: React.ComponentType<any>;
+  
+  /**
+   * The name of the component
+   */
   componentName: string;
+  
+  /**
+   * Array of property controls for the component
+   */
   properties: PropertyControl[];
+  
+  /**
+   * Default code to show in the code tab
+   */
   defaultCode: string;
+  
+  /**
+   * Optional description of the component
+   */
   description?: string;
+  
+  /**
+   * Optional child elements to render below the component preview
+   */
   children?: React.ReactNode;
 }
 
+/**
+ * Code playground component that provides interactive property controls
+ * for a component and displays both a preview and code view.
+ */
 export default function CodePlayground({
   component: Component,
   componentName,
@@ -35,17 +95,17 @@ export default function CodePlayground({
   defaultCode,
   description,
   children,
-}: CodePlaygroundProps) {
+}: CodePlaygroundProps): React.ReactElement {
   // Initialize props from defaultValues
-  const initialProps = properties.reduce((acc, property) => {
+  const initialProps = properties.reduce<Record<string, any>>((acc, property) => {
     acc[property.prop] = property.defaultValue;
     return acc;
-  }, {} as Record<string, any>);
+  }, {});
 
   const [props, setProps] = useState<Record<string, any>>(initialProps);
-  const [generatedCode, setGeneratedCode] = useState(defaultCode);
+  const [generatedCode, setGeneratedCode] = useState<string>(defaultCode);
   const [activeTab, setActiveTab] = useState<'preview' | 'code'>('preview');
-  const [copied, setCopied] = useState(false);
+  const [copied, setCopied] = useState<boolean>(false);
   const { theme } = useTheme();
   const isDark = theme === 'dark';
 
@@ -56,21 +116,68 @@ export default function CodePlayground({
     setGeneratedCode(code);
   }, [props, componentName]);
 
-  // Handle property changes
-  const handlePropertyChange = (prop: string, value: any) => {
+  /**
+   * Handle property changes
+   * 
+   * @param prop - The property name to update
+   * @param value - The new value for the property
+   */
+  const handlePropertyChange = (prop: string, value: any): void => {
     setProps((prevProps) => ({
       ...prevProps,
       [prop]: value,
     }));
   };
 
-  // Copy code to clipboard
-  const copyToClipboard = () => {
+  /**
+   * Copy code to clipboard
+   */
+  const copyToClipboard = (): void => {
     navigator.clipboard.writeText(generatedCode);
     setCopied(true);
     setTimeout(() => {
       setCopied(false);
     }, 2000);
+  };
+
+  /**
+   * Handle select input change
+   * 
+   * @param e - The change event
+   * @param prop - The property name
+   */
+  const handleSelectChange = (e: ChangeEvent<HTMLSelectElement>, prop: string): void => {
+    handlePropertyChange(prop, e.target.value);
+  };
+
+  /**
+   * Handle checkbox input change
+   * 
+   * @param e - The change event
+   * @param prop - The property name
+   */
+  const handleCheckboxChange = (e: ChangeEvent<HTMLInputElement>, prop: string): void => {
+    handlePropertyChange(prop, e.target.checked);
+  };
+
+  /**
+   * Handle text input change
+   * 
+   * @param e - The change event
+   * @param prop - The property name
+   */
+  const handleTextChange = (e: ChangeEvent<HTMLInputElement>, prop: string): void => {
+    handlePropertyChange(prop, e.target.value);
+  };
+
+  /**
+   * Handle number input change
+   * 
+   * @param e - The change event
+   * @param prop - The property name
+   */
+  const handleNumberChange = (e: ChangeEvent<HTMLInputElement>, prop: string): void => {
+    handlePropertyChange(prop, Number(e.target.value));
   };
 
   return (
@@ -119,7 +226,8 @@ export default function CodePlayground({
                           <select
                             className="w-full rounded-s border border-border-default bg-surface-tertiary dark:bg-surface-tertiary px-s py-xs text-caption font-atkinson"
                             value={props[property.prop] || ''}
-                            onChange={(e) => handlePropertyChange(property.prop, e.target.value)}
+                            onChange={(e) => handleSelectChange(e, property.prop)}
+                            disabled={property.disabled}
                           >
                             {property.options.map((option) => (
                               <option key={option} value={option}>
@@ -135,8 +243,9 @@ export default function CodePlayground({
                               type="checkbox"
                               id={`prop-${property.prop}`}
                               checked={!!props[property.prop]}
-                              onChange={(e) => handlePropertyChange(property.prop, e.target.checked)}
+                              onChange={(e) => handleCheckboxChange(e, property.prop)}
                               className="rounded-s border-border-default"
+                              disabled={property.disabled}
                             />
                             <label htmlFor={`prop-${property.prop}`} className="text-caption font-atkinson">
                               {props[property.prop] ? 'True' : 'False'}
@@ -148,8 +257,9 @@ export default function CodePlayground({
                           <input
                             type="text"
                             value={props[property.prop] || ''}
-                            onChange={(e) => handlePropertyChange(property.prop, e.target.value)}
+                            onChange={(e) => handleTextChange(e, property.prop)}
                             className="w-full rounded-s border border-border-default bg-surface-tertiary dark:bg-surface-tertiary px-s py-xs text-caption font-atkinson"
+                            disabled={property.disabled}
                           />
                         )}
                         
@@ -157,8 +267,9 @@ export default function CodePlayground({
                           <input
                             type="number"
                             value={props[property.prop] || 0}
-                            onChange={(e) => handlePropertyChange(property.prop, Number(e.target.value))}
+                            onChange={(e) => handleNumberChange(e, property.prop)}
                             className="w-full rounded-s border border-border-default bg-surface-tertiary dark:bg-surface-tertiary px-s py-xs text-caption font-atkinson"
+                            disabled={property.disabled}
                           />
                         )}
                         
@@ -167,14 +278,16 @@ export default function CodePlayground({
                             <input
                               type="color"
                               value={props[property.prop] || '#000000'}
-                              onChange={(e) => handlePropertyChange(property.prop, e.target.value)}
+                              onChange={(e) => handleTextChange(e, property.prop)}
                               className="h-8 w-8 rounded-s border border-border-default"
+                              disabled={property.disabled}
                             />
                             <input
                               type="text"
                               value={props[property.prop] || ''}
-                              onChange={(e) => handlePropertyChange(property.prop, e.target.value)}
+                              onChange={(e) => handleTextChange(e, property.prop)}
                               className="flex-1 rounded-s border border-border-default bg-surface-tertiary dark:bg-surface-tertiary px-s py-xs text-caption font-atkinson"
+                              disabled={property.disabled}
                             />
                           </div>
                         )}
