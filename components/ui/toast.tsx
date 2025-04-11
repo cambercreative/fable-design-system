@@ -3,10 +3,18 @@
 import * as React from "react"
 import * as ToastPrimitives from "@radix-ui/react-toast"
 import { X } from "lucide-react"
-
 import { cn } from "../lib/utils"
+import { ToastProps as CustomToastProps, ToastActionElement as CustomToastActionElement, ToastProviderProps } from "@/types/components/toast"
 
-const ToastProvider = ToastPrimitives.Provider
+const ToastProvider = React.forwardRef<
+  React.ElementRef<typeof ToastPrimitives.Provider>,
+  ToastProviderProps & React.ComponentPropsWithoutRef<typeof ToastPrimitives.Provider>
+>(({ children, ...props }, ref) => (
+  <ToastPrimitives.Provider ref={ref} {...props}>
+    {children}
+  </ToastPrimitives.Provider>
+))
+ToastProvider.displayName = "ToastProvider"
 
 const ToastViewport = React.forwardRef<
   React.ElementRef<typeof ToastPrimitives.Viewport>,
@@ -25,8 +33,8 @@ ToastViewport.displayName = ToastPrimitives.Viewport.displayName
 
 const Toast = React.forwardRef<
   React.ElementRef<typeof ToastPrimitives.Root>,
-  React.ComponentPropsWithoutRef<typeof ToastPrimitives.Root>
->(({ className, ...props }, ref) => {
+  React.ComponentPropsWithoutRef<typeof ToastPrimitives.Root> & Omit<CustomToastProps, "action">
+>(({ className, variant = "default", ...props }, ref) => {
   return (
     <ToastPrimitives.Root
       ref={ref}
@@ -42,13 +50,17 @@ const Toast = React.forwardRef<
         "data-[swipe=end]:fade-out-80 data-[swipe=end]:slide-out-to-right-full",
         "data-[swipe=move]:translate-x-[var(--radix-toast-swipe-move-x)]",
         "duration-quick ease-quick-ease",
+        variant === "destructive" && "border-error-500 bg-error-50 text-error-900",
+        variant === "success" && "border-success-500 bg-success-50 text-success-900",
+        variant === "warning" && "border-warning-500 bg-warning-50 text-warning-900",
+        variant === "info" && "border-info-500 bg-info-50 text-info-900",
         className
       )}
       {...props}
     />
   )
 })
-Toast.displayName = ToastPrimitives.Root.displayName
+Toast.displayName = "Toast"
 
 const ToastAction = React.forwardRef<
   React.ElementRef<typeof ToastPrimitives.Action>,
@@ -114,13 +126,9 @@ const ToastDescription = React.forwardRef<
 ))
 ToastDescription.displayName = ToastPrimitives.Description.displayName
 
-type ToastProps = React.ComponentPropsWithoutRef<typeof Toast>
-
-type ToastActionElement = React.ReactElement<typeof ToastAction>
+type ToastRootProps = React.ComponentPropsWithoutRef<typeof Toast>
 
 export {
-  type ToastProps,
-  type ToastActionElement,
   ToastProvider,
   ToastViewport,
   Toast,
