@@ -21,7 +21,7 @@ export interface SearchButtonProps {
  *
  * @returns The search button component
  */
-export function SearchButton({ className }: SearchButtonProps = {}): React.ReactElement {
+export function SearchButton({ className = '' }: SearchButtonProps): React.ReactElement {
   const { openDialog } = useSearch()
   
   /**
@@ -45,7 +45,7 @@ export function SearchButton({ className }: SearchButtonProps = {}): React.React
   return (
     <Button
       variant="outline"
-      className={`w-full justify-between hidden md:flex ${className || ''}`}
+      className={`w-full justify-between hidden md:flex ${className}`}
       onClick={(): void => openDialog()}
     >
       <div className="flex items-center gap-2">
