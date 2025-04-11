@@ -52,6 +52,14 @@ const requiredSupportDeps = [
   'tailwindcss-animate'
 ];
 
+// Required Form Libraries from DSD
+const requiredFormDeps = [
+  'react-hook-form',
+  '@hookform/resolvers',
+  'zod',
+  'date-fns'
+];
+
 // Required Core Dependencies from DSD
 const requiredCoreDeps = [
   { name: 'react', minVersion: '18.2.0' },
@@ -76,6 +84,15 @@ if (missingSupportDeps.length > 0) {
   console.error(`❌ Missing required support dependencies:\n${missingSupportDeps.map(dep => `   - ${dep}`).join('\n')}`);
 } else {
   console.log('✅ All required support dependencies are installed');
+}
+
+// Check Form Dependencies
+console.log('\n📦 Checking form-related dependencies...');
+const missingFormDeps = requiredFormDeps.filter(dep => !allDependencies[dep]);
+if (missingFormDeps.length > 0) {
+  console.error(`❌ Missing required form dependencies:\n${missingFormDeps.map(dep => `   - ${dep}`).join('\n')}`);
+} else {
+  console.log('✅ All required form dependencies are installed');
 }
 
 // Check Core Dependencies and their versions
@@ -134,7 +151,7 @@ try {
 
 // Summary
 console.log('\n📋 Dependency validation summary:');
-const totalIssues = missingRadixDeps.length + missingSupportDeps.length + coreDepIssues.length + nextConfigIssues.length;
+const totalIssues = missingRadixDeps.length + missingSupportDeps.length + missingFormDeps.length + coreDepIssues.length + nextConfigIssues.length;
 
 if (totalIssues > 0) {
   console.error(`❌ Found ${totalIssues} issues with dependencies or configuration`);

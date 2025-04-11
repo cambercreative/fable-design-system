@@ -17,6 +17,7 @@
     "prebuild": "npm run check-deps && npm run generate-dep-graph"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.3.4",
     "@radix-ui/react-accordion": "^1.1.1",
     "@radix-ui/react-checkbox": "^1.0.4",
     "@radix-ui/react-dialog": "^1.0.4",
@@ -33,6 +34,7 @@
     "@radix-ui/react-tooltip": "^1.0.6",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
+    "date-fns": "^3.3.1",
     "framer-motion": "^10.16.4",
     "lucide-react": "^0.284.0",
     "next": "14.0.0",
@@ -41,9 +43,11 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-force-graph": "^1.44.0",
+    "react-hook-form": "^7.50.0",
     "styled-components": "^6.1.1",
     "tailwind-merge": "^1.14.0",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "@axe-core/react": "^4.7.3",
