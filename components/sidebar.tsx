@@ -1,9 +1,11 @@
 "use client"
 
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { Menu, X } from 'lucide-react'
+import { SidebarProps } from '@/types/components/sidebar'
+import { cn } from './lib/utils'
 
-export default function Sidebar() {
+export function Sidebar({ className, ...props }: SidebarProps) {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
@@ -18,11 +20,15 @@ export default function Sidebar() {
       </button>
 
       {/* Sidebar */}
-      <aside className={`
-        fixed top-0 left-0 z-40 w-64 h-full bg-surface-secondary dark:bg-dark-surface-secondary border-r border-border transition-transform duration-300 ease-in-out md:translate-x-0
-        ${isOpen ? 'translate-x-0' : '-translate-x-full'}
-        md:relative md:flex
-      `}>
+      <aside 
+        className={cn(
+          "fixed top-0 left-0 z-40 w-64 h-full bg-surface-secondary dark:bg-dark-surface-secondary border-r border-border transition-transform duration-300 ease-in-out md:translate-x-0",
+          isOpen ? 'translate-x-0' : '-translate-x-full',
+          "md:relative md:flex",
+          className
+        )}
+        {...props}
+      >
         <div className="h-full overflow-y-auto p-6">
           <div className="mb-8">
             <h2 className="text-xl font-semibold">Fable Design System</h2>
