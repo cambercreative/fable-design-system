@@ -10,36 +10,98 @@ import { CommonProps, ComponentSize, Variant, StatusType } from './shared';
 
 // Import specific UI component types
 import { ButtonProps } from './components/button';
-import { CardProps } from './components/card';
-import { DialogProps } from './components/dialog';
-import { InputProps } from './components/input';
-import { CheckboxProps } from './components/checkbox';
-import { RadioGroupProps } from './components/radio-group';
-import { SelectProps } from './components/select';
-import { SwitchProps } from './components/switch';
-import { TabsProps } from './components/tabs';
-import { ToastProps } from './components/toast';
-import { AccordionProps } from './components/accordion';
-import { NavigationMenuProps } from './components/navigation-menu';
-import { ScrollAreaProps } from './components/scroll-area';
-import { TooltipProps } from './components/tooltip';
+import { CardProps, CardHeaderProps, CardContentProps, CardFooterProps, CardTitleProps, CardDescriptionProps } from './components/card';
+import { 
+  DialogProps, DialogTriggerProps, DialogContentProps, DialogHeaderProps, 
+  DialogFooterProps, DialogTitleProps, DialogDescriptionProps, DialogCloseProps 
+} from './components/dialog';
+import { InputProps, InputWrapperProps } from './components/input';
+import { CheckboxProps, CheckboxIndicatorProps, CheckboxGroupProps } from './components/checkbox';
+import { RadioGroupProps, RadioGroupItemProps, RadioGroupIndicatorProps } from './components/radio-group';
+import { 
+  SelectProps, SelectTriggerProps, SelectValueProps, SelectContentProps, 
+  SelectItemProps, SelectGroupProps, SelectLabelProps 
+} from './components/select';
+import { SwitchProps, SwitchThumbProps } from './components/switch';
+import { 
+  ToastProps, ToastProviderProps, ToastViewportProps, ToastActionProps, 
+  ToastCloseProps, ToastTitleProps, ToastDescriptionProps 
+} from './components/toast';
 
-// Re-export component types
-export {
-  ButtonProps,
-  CardProps,
-  DialogProps,
-  InputProps,
-  CheckboxProps,
-  RadioGroupProps,
-  SelectProps,
-  SwitchProps,
-  TabsProps,
-  ToastProps,
+// Import remaining component stubs
+import {
   AccordionProps,
   NavigationMenuProps,
   ScrollAreaProps,
-  TooltipProps
+  TooltipProps,
+  TabsProps
+} from './components/remaining';
+
+// Re-export component types
+export {
+  // Button
+  ButtonProps,
+  
+  // Card
+  CardProps,
+  CardHeaderProps,
+  CardContentProps,
+  CardFooterProps,
+  CardTitleProps,
+  CardDescriptionProps,
+  
+  // Dialog
+  DialogProps,
+  DialogTriggerProps,
+  DialogContentProps,
+  DialogHeaderProps,
+  DialogFooterProps,
+  DialogTitleProps,
+  DialogDescriptionProps,
+  DialogCloseProps,
+  
+  // Input
+  InputProps,
+  InputWrapperProps,
+  
+  // Checkbox
+  CheckboxProps,
+  CheckboxIndicatorProps,
+  CheckboxGroupProps,
+  
+  // RadioGroup
+  RadioGroupProps,
+  RadioGroupItemProps,
+  RadioGroupIndicatorProps,
+  
+  // Select
+  SelectProps,
+  SelectTriggerProps,
+  SelectValueProps,
+  SelectContentProps,
+  SelectItemProps,
+  SelectGroupProps,
+  SelectLabelProps,
+  
+  // Switch
+  SwitchProps,
+  SwitchThumbProps,
+  
+  // Toast
+  ToastProps,
+  ToastProviderProps,
+  ToastViewportProps,
+  ToastActionProps,
+  ToastCloseProps,
+  ToastTitleProps,
+  ToastDescriptionProps,
+  
+  // Remaining components
+  AccordionProps,
+  NavigationMenuProps,
+  ScrollAreaProps,
+  TooltipProps,
+  TabsProps
 };
 
 // Pattern component types
