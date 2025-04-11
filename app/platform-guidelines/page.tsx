@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
-import { PageHeader } from '../../components/page-header';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../components/ui/tabs';
+import { PageHeader } from '@/components/page-header';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export const metadata: Metadata = {
   title: 'Platform-Specific Guidelines | Fable Design System',
