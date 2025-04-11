@@ -4,7 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export const metadata: Metadata = {
   title: 'Platform-Specific Guidelines | Fable Design System',
-  description: 'How Fable's design system adapts for iOS and Android while maintaining a consistent cross-platform identity.',
+  description: "How Fable's design system adapts for iOS and Android while maintaining a consistent cross-platform identity."
 };
 
 export default function PlatformGuidelinesPage() {
