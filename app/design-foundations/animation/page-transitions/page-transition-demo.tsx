@@ -449,12 +449,12 @@ function App() {
               
               <p className="text-muted-foreground mb-4">
                 {activeTransition === 'forward' 
-                  ? 'Forward navigation animates content from right to left, creating a sense of progression through the application's information hierarchy. The transition is slightly longer (300ms) to emphasize the importance of moving to new content.'
+                  ? 'Forward navigation animates content from right to left, creating a sense of progression through the application\'s information hierarchy. The transition is slightly longer (300ms) to emphasize the importance of moving to new content.'
                   : activeTransition === 'backward'
                   ? 'Backward navigation animates content from left to right, reinforcing the spatial model of returning to previously viewed content. The transition is slightly quicker (200ms) to make returns feel more responsive and immediate.'
                   : activeTransition === 'modal'
                   ? 'Modal presentations slide up from the bottom with a backdrop that fades in to create hierarchy. This pattern establishes that the modal content is layered on top of the existing screen and requires attention before returning.'
-                  : 'Bottom sheets slide up from the bottom edge of the screen while maintaining the context of the underlying content. They're often used for quick actions or supplementary information without a full context switch.'}
+                  : 'Bottom sheets slide up from the bottom edge of the screen while maintaining the context of the underlying content. They\'re often used for quick actions or supplementary information without a full context switch.'}
               </p>
 
               <h5 className="font-medium mb-2">Motion Properties</h5>
